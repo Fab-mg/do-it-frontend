@@ -1,12 +1,18 @@
 import { createContext, useContext, useState } from "react";
-import { getAllTask } from "../services/task.service";
+import { createTask, getAllTask } from "../services/task.service";
 
 const TaskContext = createContext(null);
 
 export function TaskProvider({ children }) {
   const [taskList, setTaskList] = useState([]);
 
-  const addTask = async (task) => {};
+  const addTask = async (task) => {
+    const created = await createTask(task);
+    if (created) {
+      await getAllTasks();
+    }
+    return created;
+  };
 
   const getAllTasks = async () => {
     const tasks = await getAllTask();

@@ -1,46 +1,109 @@
-import { Box, Button, Input, InputBase, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  InputBase,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
+import { useTask } from "../../../context/task.context";
 
 export function CreateNewTask() {
-  const [showFields, setShowFields] = useState(false);
+  const { addTask } = useTask();
+  const [openModal, setOpenModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formValues, setFormValues] = useState({
+    title: "",
+    description: "",
+    endDate: "",
+  });
+
+  const updateField = (field) => (event) => {
+    setFormValues((prev) => ({ ...prev, [field]: event.target.value }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const title = formValues.title.trim();
+    if (!title || !formValues.endDate) {
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const created = await addTask({
+        title,
+        description: formValues.description.trim() || null,
+        endDate: formValues.endDate,
+      });
+      if (created) {
+        setFormValues({ title: "", description: "", endDate: "" });
+        setOpenModal(false);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <Box sx={{ width: "100vh" }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          borderRadius: "4px",
-          width: "90%",
-          boxShadow: 2,
-          paddingX: 3,
-        }}
-      >
-        <InputBase
-          placeholder="Create a new task"
-          variant="standard"
-          sx={{ width: "80%" }}
-        />
-        {showFields ? (
-          <Button
-            onClick={() => {
-              setShowFields(false);
-            }}
-          >
-            {" "}
-            Cancel{" "}
-          </Button>
-        ) : (
-          <Button
-            onClick={() => {
-              setShowFields(true);
-            }}
-          >
-            {" "}
-            Create new task{" "}
-          </Button>
-        )}{" "}
-      </Box>
+    <Box sx={{ width: "100%" }}>
+      <Button variant="contained" onClick={() => setOpenModal(true)}>
+        Add task
+      </Button>
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: { xs: "90%", sm: 520 },
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <Typography variant="h6" fontWeight={700}>
+            Create new task
+          </Typography>
+          <InputBase
+            placeholder="Task title"
+            variant="standard"
+            value={formValues.title}
+            onChange={updateField("title")}
+            sx={{ fontSize: "1rem" }}
+          />
+          <TextField
+            label="Description"
+            placeholder="Optional description"
+            multiline
+            minRows={3}
+            value={formValues.description}
+            onChange={updateField("description")}
+          />
+          <TextField
+            label="End date"
+            type="date"
+            value={formValues.endDate}
+            onChange={updateField("endDate")}
+            InputLabelProps={{ shrink: true }}
+          />
+          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+            <Button onClick={() => setOpenModal(false)} disabled={isSubmitting}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="contained" disabled={isSubmitting}>
+              Create task
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 }
