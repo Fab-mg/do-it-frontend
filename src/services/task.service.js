@@ -1,9 +1,13 @@
 import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export const createTask = async (taskData) => {
+export const createTask = async (taskData, token) => {
   try {
-    const response = await axios.post(`${apiUrl}/task`, taskData);
+    const response = await axios.post(`${apiUrl}/task`, taskData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (response.status === 201) {
       console.log("Task created successfully");
       return true;
@@ -15,9 +19,17 @@ export const createTask = async (taskData) => {
   }
 };
 
-export const getAllTask = async () => {
+export const getAllTask = async (query, token) => {
   try {
-    const response = await axios.get(`${apiUrl}/task`);
+    const response = await axios.get(`${apiUrl}/task`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        page: query.page,
+        limit: query.limit,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching Tasks:", error);
@@ -25,8 +37,25 @@ export const getAllTask = async () => {
   }
 };
 
-export const getTaskById = async (id) => {
-  console.log("🚀 ~ getTaskById ~ id:", id);
+export const getTasksByStatus = async (findByStatusBody, token) => {
+  try {
+    const response = await axios.post(
+      `${apiUrl}/task/status`,
+      { ...findByStatusBody },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Tasks:", error);
+    throw error;
+  }
+};
+
+export const getTaskById = async (id, token) => {
   let TaskId = id;
   if (typeof id === "object" && id !== null) {
     TaskId = id._id || id.id;
@@ -35,7 +64,11 @@ export const getTaskById = async (id) => {
     throw new Error("Invalid ID: must be a string or number");
   }
   try {
-    const response = await axios.get(`${apiUrl}/task/${TaskId.toString()}`);
+    const response = await axios.get(`${apiUrl}/task/${TaskId.toString()}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching Task:", error);
@@ -43,11 +76,19 @@ export const getTaskById = async (id) => {
   }
 };
 
-export const updateTaskStatus = async (id, status) => {
+export const updateTaskStatus = async (id, status, token) => {
   try {
-    const response = await axios.put(`${apiUrl}/task/${id}/status`, {
-      status,
-    });
+    const response = await axios.put(
+      `${apiUrl}/task/${id}`,
+      {
+        status,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
     return response.data;
   } catch (error) {
     console.error("Error updating Task status:", error);

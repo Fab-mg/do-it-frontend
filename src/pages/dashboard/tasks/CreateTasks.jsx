@@ -8,15 +8,17 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useTask } from "../../../context/task.context";
+import { useAuth } from "../../../context/auth.context";
 
 export function CreateNewTask() {
   const { addTask } = useTask();
   const [openModal, setOpenModal] = useState(false);
+  const { token } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValues, setFormValues] = useState({
     title: "",
     description: "",
-    endDate: "",
+    expectedFinish: "",
   });
 
   const updateField = (field) => (event) => {
@@ -26,18 +28,21 @@ export function CreateNewTask() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const title = formValues.title.trim();
-    if (!title || !formValues.endDate) {
+    if (!title || !formValues.expectedFinish) {
       return;
     }
     setIsSubmitting(true);
     try {
-      const created = await addTask({
-        title,
-        description: formValues.description.trim() || null,
-        endDate: formValues.endDate,
-      });
+      const created = await addTask(
+        {
+          title,
+          description: formValues.description.trim() || null,
+          expectedFinish: formValues.expectedFinish,
+        },
+        token,
+      );
       if (created) {
-        setFormValues({ title: "", description: "", endDate: "" });
+        setFormValues({ title: "", description: "", expectedFinish: "" });
         setOpenModal(false);
       }
     } finally {
@@ -90,8 +95,8 @@ export function CreateNewTask() {
           <TextField
             label="End date"
             type="date"
-            value={formValues.endDate}
-            onChange={updateField("endDate")}
+            value={formValues.expectedFinish}
+            onChange={updateField("expectedFinish")}
             InputLabelProps={{ shrink: true }}
           />
           <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>

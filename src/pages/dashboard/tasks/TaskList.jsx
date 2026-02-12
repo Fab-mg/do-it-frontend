@@ -54,7 +54,7 @@ export default function TaskList({ taskList, label, icon }) {
         <Box
           sx={{ marginLeft: 6, display: showTodaysTasks ? "block" : "none" }}
         >
-          {taskList.map((task) => (
+          {taskList.slice(0, 10).map((task) => (
             <TaskItem
               task={task}
               handleOpen={handleOpen}

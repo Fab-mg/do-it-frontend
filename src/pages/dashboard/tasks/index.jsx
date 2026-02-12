@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import TaskList from "./TaskList";
 import { CreateNewTask } from "./CreateTasks";
 import { useTask } from "../../../context/task.context";
@@ -7,11 +7,25 @@ import TodayIcon from "@mui/icons-material/Today";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import RunningWithErrorsIcon from "@mui/icons-material/RunningWithErrors";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import { useAuth } from "../../../context/auth.context";
 
 export default function TaskTab() {
-  const { getAllTasks, taskList } = useTask();
+  const {
+    getTodaysTasks,
+    getOngoingTasks,
+    getFinishedTasks,
+    getCanceledTasks,
+    ongoingTasks,
+    cancelledTasks,
+    finishedTasks,
+    todaysTaskList,
+  } = useTask();
+  const { token } = useAuth();
   useEffect(() => {
-    getAllTasks();
+    getTodaysTasks(token);
+    getOngoingTasks(token);
+    getFinishedTasks(token);
+    getCanceledTasks(token);
   }, []);
   return (
     <Box sx={{ width: "100%" }}>
@@ -40,24 +54,29 @@ export default function TaskTab() {
           </Box>
         </Box>
         <TaskList
-          taskList={taskList}
+          taskList={todaysTaskList}
           label={"Today"}
           icon={<TodayIcon sx={{ marginRight: "4px" }} />}
         />
         <TaskList
-          taskList={taskList}
+          taskList={ongoingTasks}
           label={"Ongoing tasks"}
           icon={<AccessTimeIcon sx={{ marginRight: "4px" }} />}
         />
-        <TaskList
+        {/* <TaskList
           taskList={taskList}
           label={"Late tasks"}
           icon={<RunningWithErrorsIcon sx={{ marginRight: "4px" }} />}
-        />
+        /> */}
         <TaskList
-          taskList={taskList}
+          taskList={finishedTasks}
           label={"Completed tasks"}
           icon={<AssignmentTurnedInIcon sx={{ marginRight: "4px" }} />}
+        />
+        <TaskList
+          taskList={cancelledTasks}
+          label={"Canceled tasks"}
+          icon={<RunningWithErrorsIcon sx={{ marginRight: "4px" }} />}
         />
       </Stack>
     </Box>

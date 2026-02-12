@@ -36,10 +36,7 @@ export default function Welcome() {
           <Logo />
           <Stack spacing={1.5}>
             <Typography variant="h3" fontWeight={800}>
-              Welcome to Do-it{" "}
-              <span role="img" aria-label="wave">
-                👋
-              </span>
+              Welcome to Do-it 🎉{" "}
             </Typography>
             <Typography variant="h6" color="text.secondary">
               Your new favorite way to stay organized and get things done.
@@ -94,7 +91,6 @@ export default function Welcome() {
                 ":hover": { bgcolor: blueGrey },
               }}
               onClick={() => {
-                // navigate to app / signup
                 navigate("board");
               }}
             >
