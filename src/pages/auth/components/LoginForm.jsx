@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function LoginForm({ onRegister, onForgotPassword, onLogin }) {
   const navigate = useNavigate();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoggingIn(true);
     const formData = new FormData(event.currentTarget);
@@ -16,7 +16,7 @@ export default function LoginForm({ onRegister, onForgotPassword, onLogin }) {
       password: String(formData.get("password") || ""),
     };
     if (onLogin) {
-      onLogin(payload);
+      await onLogin(payload);
     }
     setIsLoggingIn(false);
   };
