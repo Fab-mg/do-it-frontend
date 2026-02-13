@@ -2,9 +2,9 @@ import { Box } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TaskTab from "./tasks";
-import Sidebar from "./Sidebar";
-import ProfileTab from "./ProfileTab";
 import { useAuth } from "../../context/auth.context";
+import Sidebar from "./sideNav/Sidebar";
+import ProfileTab from "./profile";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
@@ -19,7 +19,7 @@ export default function Dashboard() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
+        height: "100vh",
         bgcolor: "#f5f7fb",
         p: { xs: 2, md: 3 },
       }}
@@ -45,7 +45,7 @@ export default function Dashboard() {
             border: "1px solid",
             borderColor: "divider",
             p: { xs: 2, md: 3 },
-            minHeight: { xs: "auto", md: "calc(100vh - 48px)" },
+            // minHeight: { xs: "auto", md: "calc(100vh - 48px)" },
           }}
         >
           {activeTab === "tasks" ? <TaskTab /> : <ProfileTab />}

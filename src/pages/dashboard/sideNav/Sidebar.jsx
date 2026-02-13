@@ -2,7 +2,7 @@ import { Box, Button, Divider, Stack, Typography, alpha } from "@mui/material";
 import AssignmentTurnedInRoundedIcon from "@mui/icons-material/AssignmentTurnedInRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
-import logoPNG from "../../assets/logo.png";
+import logoPNG from "../../../assets/logo.png";
 
 const tabs = [
   { id: "profile", label: "Profile", icon: PersonOutlineRoundedIcon },

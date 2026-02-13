@@ -1,5 +1,5 @@
 import { Box, Container, Paper } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
@@ -7,10 +7,13 @@ import ForgotPasswordForm from "./components/ForgotPasswordForm";
 import { useAuth } from "../../context/auth.context.jsx";
 
 export default function Auth() {
-  const [currentView, setCurrentView] = useState("login");
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const requestedView = location.state?.view;
+  const [currentView, setCurrentView] = useState(
+    requestedView === "register" ? "register" : "login",
+  );
   const redirectTo = location.state?.from?.pathname || "/board";
 
   const handleLogin = async (credentials) => {

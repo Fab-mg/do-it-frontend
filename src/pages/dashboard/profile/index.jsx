@@ -1,5 +1,5 @@
 import { Avatar, Box, Stack, Typography } from "@mui/material";
-import { useAuth } from "../../context/auth.context";
+import { useAuth } from "../../../context/auth.context";
 
 const getDisplayName = (user) =>
   user?.name || user?.fullName || user?.username || user?.email || "User";
@@ -15,7 +15,7 @@ export default function ProfileTab() {
         Profile
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-        Account details and workspace info.
+        Account details and info.
       </Typography>
 
       <Box
