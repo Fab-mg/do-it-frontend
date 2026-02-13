@@ -21,7 +21,7 @@ export default function TaskTab() {
     finishedTasks,
     todaysTaskList,
   } = useTask();
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   useEffect(() => {
     getTodaysTasks(token);
     getOngoingTasks(token);
@@ -44,7 +44,7 @@ export default function TaskTab() {
         >
           <Stack spacing={1}>
             <Typography variant="h5" fontWeight={800}>
-              Hello, User!
+              Hello, {user.firstName}!
             </Typography>
             <Typography variant="body1" color="text.secondary">
               What is today's goal?
