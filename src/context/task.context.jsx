@@ -14,11 +14,13 @@ export function TaskProvider({ children }) {
   const [ongoingTasks, setOngoingTasks] = useState([]);
   const [finishedTasks, setFinishedTasks] = useState([]);
   const [cancelledTasks, setCanceledTasks] = useState([]);
+  const [archivedTasks, setArchivedTasks] = useState([]);
 
   const addTask = async (task, token) => {
     const created = await createTask(task, token);
     if (created) {
-      await getAllTasks(token);
+      await getTodaysTasks(token);
+      await getOngoingTasks(token);
     }
     return created;
   };
@@ -71,10 +73,50 @@ export function TaskProvider({ children }) {
   const finishTask = async (taskId, token) => {
     const finished = await updateTaskStatus(taskId, "finished", token);
     if (finished) {
-      let tasks = taskList.filter((task) => task._id != finished._id);
-      setTaskList(tasks);
+      let tasks = todaysTaskList.filter((task) => task._id != finished._id);
+      setTodaysTaskList(tasks);
+      let ongoing = ongoingTasks.filter((task) => task._id != finished._id);
+      setOngoingTasks(ongoing);
+      await getFinishedTasks(token);
     }
     return finished;
+  };
+
+  const cancelTask = async (taskId, token) => {
+    const canceled = await updateTaskStatus(taskId, "cancelled", token);
+    if (canceled) {
+      let tasks = todaysTaskList.filter((task) => task._id != canceled._id);
+      setTodaysTaskList(tasks);
+      let ongoing = ongoingTasks.filter((task) => task._id != canceled._id);
+      setOngoingTasks(ongoing);
+      setCanceledTasks([canceled, ...cancelledTasks]);
+    }
+    return canceled;
+  };
+
+  const archiveTask = async (taskId, token) => {
+    const archived = await updateTaskStatus(taskId, "archived", token);
+    if (archived) {
+      let finished = finishedTasks.filter((task) => task._id != archived._id);
+      setFinishedTasks(finished);
+      setArchivedTasks([archived, ...archivedTasks]);
+    }
+    return archived;
+  };
+
+  const resumeTask = async (taskId, token) => {
+    const resumed = await updateTaskStatus(taskId, "ongoing", token);
+    if (resumed) {
+      let canceled = cancelledTasks.filter((task) => task._id != resumed._id);
+      setCanceledTasks(canceled);
+      setOngoingTasks([resumed, ...ongoingTasks]);
+      await getTodaysTasks(token);
+    }
+    return resumed;
+  };
+
+  const deleteTask = async (taskId, token) => {
+    const deleted = 1;
   };
 
   const value = {
@@ -88,7 +130,10 @@ export function TaskProvider({ children }) {
     ongoingTasks,
     cancelledTasks,
     finishedTasks,
+    cancelTask,
     finishTask,
+    archiveTask,
+    resumeTask,
   };
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;

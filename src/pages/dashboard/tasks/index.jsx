@@ -8,6 +8,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import RunningWithErrorsIcon from "@mui/icons-material/RunningWithErrors";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import { useAuth } from "../../../context/auth.context";
+import EventBusyIcon from "@mui/icons-material/EventBusy";
 
 export default function TaskTab() {
   const {
@@ -76,7 +77,7 @@ export default function TaskTab() {
         <TaskList
           taskList={cancelledTasks}
           label={"Canceled tasks"}
-          icon={<RunningWithErrorsIcon sx={{ marginRight: "4px" }} />}
+          icon={<EventBusyIcon sx={{ marginRight: "4px" }} />}
         />
       </Stack>
     </Box>

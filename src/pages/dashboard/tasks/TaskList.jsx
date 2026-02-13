@@ -4,6 +4,7 @@ import TaskDetails from "./TaskDetails";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { TaskItem } from "./TaskItem";
+import { CanceledTaskItem } from "./CanceledTaskItem";
 
 export default function TaskList({ taskList, label, icon }) {
   const [open, setOpen] = useState(false);
@@ -16,13 +17,6 @@ export default function TaskList({ taskList, label, icon }) {
     setShowTodaysTasks(!showTodaysTasks);
   };
 
-  if (taskList.length <= 0) {
-    return (
-      <Box>
-        <Typography variant="h4">No task yet</Typography>
-      </Box>
-    );
-  }
   return (
     <Box>
       <Box>
@@ -54,13 +48,24 @@ export default function TaskList({ taskList, label, icon }) {
         <Box
           sx={{ marginLeft: 6, display: showTodaysTasks ? "block" : "none" }}
         >
-          {taskList.slice(0, 10).map((task) => (
-            <TaskItem
-              task={task}
-              handleOpen={handleOpen}
-              setCurrentTask={setCurrentTask}
-            />
-          ))}
+          {taskList.slice(0, 10).map((task) => {
+            if (task.status === "cancelled") {
+              return (
+                <CanceledTaskItem
+                  task={task}
+                  handleOpen={handleOpen}
+                  setCurrentTask={setCurrentTask}
+                />
+              );
+            }
+            return (
+              <TaskItem
+                task={task}
+                handleOpen={handleOpen}
+                setCurrentTask={setCurrentTask}
+              />
+            );
+          })}
         </Box>
       </Box>
       <Modal open={open} onClose={handleClose}>
