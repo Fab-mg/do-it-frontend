@@ -1,5 +1,5 @@
-import { Box, Checkbox, Typography, Modal, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Typography, Modal, Stack } from "@mui/material";
+import { useState } from "react";
 import TaskDetails from "./TaskDetails";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -52,6 +52,7 @@ export default function TaskList({ taskList, label, icon }) {
             if (task.status === "cancelled") {
               return (
                 <CanceledTaskItem
+                  key={task._id}
                   task={task}
                   handleOpen={handleOpen}
                   setCurrentTask={setCurrentTask}
@@ -60,6 +61,7 @@ export default function TaskList({ taskList, label, icon }) {
             }
             return (
               <TaskItem
+                key={task._id}
                 task={task}
                 handleOpen={handleOpen}
                 setCurrentTask={setCurrentTask}

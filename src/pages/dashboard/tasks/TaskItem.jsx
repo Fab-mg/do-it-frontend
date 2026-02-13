@@ -1,13 +1,12 @@
-import { Box, Button, Checkbox, colors, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Typography } from "@mui/material";
 import { formatDescription } from "../../../utils/task.format";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import { useAuth } from "../../../context/auth.context";
 import { useTask } from "../../../context/task.context";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
+import { EditTaskComponent } from "./EditTaskComponent";
 
 export function TaskItem({ setCurrentTask, handleOpen, task }) {
   const [checkedTask, setCheckedTask] = useState(false);
@@ -108,7 +107,7 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
             </Box>
           ) : (
             <Box sx={{ display: "flex", gap: 2 }}>
-              {<EditIcon />}
+              <EditTaskComponent task={task} />
               <CloseIcon onClick={handleCancelTask} />
             </Box>
           )}

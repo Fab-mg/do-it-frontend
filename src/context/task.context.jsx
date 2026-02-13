@@ -3,11 +3,15 @@ import {
   createTask,
   getAllTask,
   getTasksByStatus,
+  updateTask,
   updateTaskStatus,
 } from "../services/task.service";
 import { isToday } from "../utils/date";
 
 const TaskContext = createContext(null);
+
+const replaceTaskInList = (tasks, updatedTask) =>
+  tasks.map((task) => (task._id === updatedTask._id ? updatedTask : task));
 
 export function TaskProvider({ children }) {
   const [todaysTaskList, setTodaysTaskList] = useState([]);
@@ -36,7 +40,7 @@ export function TaskProvider({ children }) {
       setTodaysTaskList(todaysTasks);
       return todaysTasks;
     }
-    setTaskList([]);
+    setTodaysTaskList([]);
     return [];
   };
 
@@ -104,6 +108,18 @@ export function TaskProvider({ children }) {
     return archived;
   };
 
+  const editTask = async (taskId, taskData, token) => {
+    const updated = await updateTask(taskId, taskData, token);
+    if (updated) {
+      setTodaysTaskList((prev) => replaceTaskInList(prev, updated));
+      setOngoingTasks((prev) => replaceTaskInList(prev, updated));
+      setFinishedTasks((prev) => replaceTaskInList(prev, updated));
+      setCanceledTasks((prev) => replaceTaskInList(prev, updated));
+      setArchivedTasks((prev) => replaceTaskInList(prev, updated));
+    }
+    return updated;
+  };
+
   const resumeTask = async (taskId, token) => {
     const resumed = await updateTaskStatus(taskId, "ongoing", token);
     if (resumed) {
@@ -113,10 +129,6 @@ export function TaskProvider({ children }) {
       await getTodaysTasks(token);
     }
     return resumed;
-  };
-
-  const deleteTask = async (taskId, token) => {
-    const deleted = 1;
   };
 
   const value = {
@@ -134,6 +146,7 @@ export function TaskProvider({ children }) {
     finishTask,
     archiveTask,
     resumeTask,
+    editTask,
   };
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;

@@ -95,3 +95,17 @@ export const updateTaskStatus = async (id, status, token) => {
     throw error;
   }
 };
+
+export const updateTask = async (id, taskData, token) => {
+  try {
+    const response = await axios.put(`${apiUrl}/task/${id}`, taskData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating Task:", error);
+    throw error;
+  }
+};
