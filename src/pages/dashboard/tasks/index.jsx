@@ -58,10 +58,12 @@ export default function TaskTab() {
           taskList={todaysTaskList}
           label={"Today"}
           icon={<TodayIcon sx={{ marginRight: "4px" }} />}
+          isOpen={true}
         />
         <TaskList
           taskList={ongoingTasks}
           label={"Ongoing tasks"}
+          isOpen={true}
           icon={<AccessTimeIcon sx={{ marginRight: "4px" }} />}
         />
         {/* <TaskList

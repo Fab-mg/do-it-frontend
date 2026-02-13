@@ -28,3 +28,24 @@ export const toInputDate = (value) => {
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
+
+export const formatDate = (value, withTime = true) => {
+  if (!value) {
+    return "Not set";
+  }
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return "Invalid date";
+  }
+
+  if (withTime) {
+    return new Intl.DateTimeFormat("en-US", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    }).format(date);
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "medium",
+  }).format(date);
+};

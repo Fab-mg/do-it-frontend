@@ -57,7 +57,8 @@ export default function LoginForm({ onRegister, onForgotPassword, onLogin }) {
             component="button"
             type="button"
             underline="hover"
-            onClick={onForgotPassword}
+            sx={{ color: "grey" }}
+            // onClick={onForgotPassword}
           >
             Forgot password?
           </Link>

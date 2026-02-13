@@ -6,12 +6,12 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { TaskItem } from "./TaskItem";
 import { CanceledTaskItem } from "./CanceledTaskItem";
 
-export default function TaskList({ taskList, label, icon }) {
+export default function TaskList({ taskList, label, icon, isOpen }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [currentTask, setCurrentTask] = useState(null);
-  const [showTodaysTasks, setShowTodaysTasks] = useState(false);
+  const [showTodaysTasks, setShowTodaysTasks] = useState(isOpen ? true : false);
 
   const toggleShowTodaysTask = () => {
     setShowTodaysTasks(!showTodaysTasks);
