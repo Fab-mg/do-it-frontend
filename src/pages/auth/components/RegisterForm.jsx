@@ -1,6 +1,7 @@
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { registerUser } from "../../../services/user.service";
+import ButtonOrLoader from "../../../components/ButtonOrLoader";
 
 export default function RegisterForm({ onLogin }) {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ export default function RegisterForm({ onLogin }) {
     email: "",
     password: "",
   });
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const handleFormEdit = (fieldName, value) => {
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
@@ -16,9 +18,11 @@ export default function RegisterForm({ onLogin }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsRegistering(true);
     console.log("🚀 ~ RegisterForm ~ formData:", formData);
     let user = await registerUser(formData);
     console.log("🚀 ~ handleSubmit ~ user:", user);
+    setIsRegistering(false);
     if (user) {
       onLogin();
     } else {
@@ -77,9 +81,14 @@ export default function RegisterForm({ onLogin }) {
           }}
         />
 
-        <Button type="submit" variant="contained" size="large" fullWidth>
-          Register
-        </Button>
+        <ButtonOrLoader
+          loading={isRegistering}
+          button={
+            <Button type="submit" variant="contained" size="large" fullWidth>
+              Register
+            </Button>
+          }
+        />
 
         <Stack direction="row" justifyContent="center">
           <Typography variant="body2" color="text.secondary">

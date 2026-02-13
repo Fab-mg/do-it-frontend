@@ -1,8 +1,12 @@
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import ButtonOrLoader from "../../../components/ButtonOrLoader";
 
 export default function LoginForm({ onRegister, onForgotPassword, onLogin }) {
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsLoggingIn(false);
     const formData = new FormData(event.currentTarget);
     const payload = {
       email: String(formData.get("email") || ""),
@@ -11,6 +15,7 @@ export default function LoginForm({ onRegister, onForgotPassword, onLogin }) {
     if (onLogin) {
       onLogin(payload);
     }
+    setIsLoggingIn(false);
   };
 
   return (
@@ -34,9 +39,14 @@ export default function LoginForm({ onRegister, onForgotPassword, onLogin }) {
           fullWidth
         />
 
-        <Button type="submit" variant="contained" size="large" fullWidth>
-          Login
-        </Button>
+        <ButtonOrLoader
+          loading={isLoggingIn}
+          button={
+            <Button type="submit" variant="contained" size="large" fullWidth>
+              Login
+            </Button>
+          }
+        />
 
         <Stack
           direction="row"

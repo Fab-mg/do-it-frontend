@@ -20,6 +20,8 @@ export default function Auth() {
     let user = await login(credentials);
     if (user) {
       navigate(redirectTo, { replace: true });
+    } else {
+      window.alert("Unexpected error. Please try agasin.");
     }
   };
 

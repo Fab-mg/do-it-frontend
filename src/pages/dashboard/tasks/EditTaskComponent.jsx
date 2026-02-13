@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useTask } from "../../../context/task.context";
 import { useAuth } from "../../../context/auth.context";
 import { toInputDate } from "../../../utils/date";
+import ButtonOrLoader from "../../../components/ButtonOrLoader";
 
 export function EditTaskComponent({ task }) {
   const { editTask } = useTask();
@@ -142,9 +143,18 @@ export function EditTaskComponent({ task }) {
             <Button onClick={handleClose} disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button type="submit" variant="contained" disabled={isSubmitting}>
-              Save changes
-            </Button>
+            <ButtonOrLoader
+              loading={isSubmitting}
+              button={
+                <Button
+                  type="submit"
+                  variant="contained"
+                  disabled={isSubmitting}
+                >
+                  Save changes
+                </Button>
+              }
+            />
           </Box>
         </Box>
       </Modal>

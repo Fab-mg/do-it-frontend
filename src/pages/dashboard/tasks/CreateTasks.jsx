@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { useTask } from "../../../context/task.context";
 import { useAuth } from "../../../context/auth.context";
+import ButtonOrLoader from "../../../components/ButtonOrLoader";
 
 export function CreateNewTask() {
   const { addTask } = useTask();
@@ -29,6 +30,7 @@ export function CreateNewTask() {
     event.preventDefault();
     const title = formValues.title.trim();
     if (!title || !formValues.expectedFinish) {
+      window.alert("please fill in form the fields");
       return;
     }
     setIsSubmitting(true);
@@ -103,9 +105,18 @@ export function CreateNewTask() {
             <Button onClick={() => setOpenModal(false)} disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button type="submit" variant="contained" disabled={isSubmitting}>
-              Create task
-            </Button>
+            <ButtonOrLoader
+              loading={isSubmitting}
+              button={
+                <Button
+                  type="submit"
+                  variant="contained"
+                  disabled={isSubmitting}
+                >
+                  Create task
+                </Button>
+              }
+            />
           </Box>
         </Box>
       </Modal>
