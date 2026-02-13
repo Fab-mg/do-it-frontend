@@ -1,5 +1,5 @@
 import { Box, Container, Paper } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
@@ -7,7 +7,7 @@ import ForgotPasswordForm from "./components/ForgotPasswordForm";
 import { useAuth } from "../../context/auth.context.jsx";
 
 export default function Auth() {
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const requestedView = location.state?.view;
@@ -24,6 +24,12 @@ export default function Auth() {
       window.alert("Unexpected error. Please try agasin.");
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(redirectTo, { replace: true });
+    }
+  }, [isAuthenticated]);
 
   return (
     <Box

@@ -1,12 +1,15 @@
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import ButtonOrLoader from "../../../components/ButtonOrLoader";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm({ onRegister, onForgotPassword, onLogin }) {
+  const navigate = useNavigate();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
-    setIsLoggingIn(false);
+    setIsLoggingIn(true);
     const formData = new FormData(event.currentTarget);
     const payload = {
       email: String(formData.get("email") || ""),
@@ -22,9 +25,19 @@ export default function LoginForm({ onRegister, onForgotPassword, onLogin }) {
     <Box component="form" onSubmit={handleSubmit}>
       <Stack spacing={2.5}>
         <Stack spacing={0.5}>
-          <Typography variant="h5" fontWeight={800}>
-            Sign in
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 2,
+            }}
+          >
+            <ArrowBackIcon onClick={() => navigate("/")} />
+            <Typography variant="h5" fontWeight={800}>
+              Sign in
+            </Typography>
+          </Box>
           <Typography color="text.secondary">
             Welcome back. Continue to your tasks.
           </Typography>
