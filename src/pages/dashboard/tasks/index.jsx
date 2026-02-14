@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import { useEffect } from "react";
 import TaskList from "./TaskList";
 import { CreateNewTask } from "./CreateTasks";
@@ -54,6 +54,7 @@ export default function TaskTab() {
             <CreateNewTask />
           </Box>
         </Box>
+        <Divider />
         <TaskList
           taskList={todaysTaskList}
           label={"Today"}

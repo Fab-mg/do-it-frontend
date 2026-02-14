@@ -48,8 +48,10 @@ export default function TaskList({ taskList, label, icon, isOpen }) {
         <Box
           sx={{
             ml: { xs: 0, sm: 3 },
-            width: "100%",
+            width: { xl: "100%", md: "90%" },
             minWidth: 0,
+            bgcolor: "#f5f7fb",
+            borderRadius: 2,
             display: showTodaysTasks ? "block" : "none",
           }}
         >

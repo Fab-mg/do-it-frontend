@@ -7,14 +7,18 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import { EditTaskComponent } from "./EditTaskComponent";
+import ButtonOrLoader from "../../../components/ButtonOrLoader";
 
 export function TaskItem({ setCurrentTask, handleOpen, task }) {
   const [checkedTask, setCheckedTask] = useState(false);
   const { finishTask, archiveTask, cancelTask } = useTask();
   const { token } = useAuth();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleFinishTask = async () => {
+    setIsProcessing(true);
     let finished = await finishTask(task._id, token);
+    setIsProcessing(false);
     if (finished) {
       setCheckedTask(false);
     } else {
@@ -23,14 +27,18 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
   };
 
   const handleArchiveTask = async () => {
+    setIsProcessing(true);
     let archived = await archiveTask(task._id, token);
+    setIsProcessing(false);
     if (!archived) {
       window.alert("An error occured, failed to archive task");
     }
   };
 
   const handleCancelTask = async () => {
+    setIsProcessing(true);
     let canceled = await cancelTask(task._id, token);
+    setIsProcessing(false);
     if (!canceled) {
       window.alert("An error occured, failed to cancel task");
     }
@@ -47,13 +55,13 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
         px: { xs: 1, sm: 2 },
         py: 1,
         width: { xl: "90%", md: "90%", xs: "100%" },
-
         minWidth: 0,
         boxSizing: "border-box",
         ":hover": {
-          backgroundColor: "#f4f5f7",
-          boxShadow: "0px 4px 10px 0px rgba(0,0,0,0.2)",
-          borderRadius: "5px",
+          // backgroundColor: "#f4f5f7",
+          // boxShadow: "0px 4px 10px 0px rgba(0,0,0,0.2)",
+          // borderRadius: "5px",
+          color: "blue",
         },
       }}
       key={task._id}
@@ -116,18 +124,27 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
       {task.status === "finished" ? (
         <Box sx={{ flexShrink: 0 }}>
           {" "}
-          <ArchiveIcon onClick={handleArchiveTask} />
+          <ButtonOrLoader
+            button={<ArchiveIcon onClick={handleArchiveTask} />}
+            loading={isProcessing}
+          />
         </Box>
       ) : (
         <Box sx={{ flexShrink: 0 }}>
           {checkedTask ? (
             <Box>
-              <Button onClick={handleFinishTask}>Finish Task</Button>
+              <ButtonOrLoader
+                button={<Button onClick={handleFinishTask}>Finish Task</Button>}
+                loading={isProcessing}
+              />
             </Box>
           ) : (
-            <Box sx={{ display: "flex", gap: 2 }}>
+            <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
               <EditTaskComponent task={task} />
-              <CloseIcon onClick={handleCancelTask} />
+              <ButtonOrLoader
+                button={<CloseIcon onClick={handleCancelTask} />}
+                loading={isProcessing}
+              />
             </Box>
           )}
         </Box>

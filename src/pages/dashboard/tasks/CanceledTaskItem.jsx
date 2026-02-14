@@ -3,12 +3,17 @@ import CachedIcon from "@mui/icons-material/Cached";
 import { formatDescription } from "../../../utils/task.format";
 import { useTask } from "../../../context/task.context";
 import { useAuth } from "../../../context/auth.context";
+import ButtonOrLoader from "../../../components/ButtonOrLoader";
+import { useState } from "react";
 
 export function CanceledTaskItem({ setCurrentTask, handleOpen, task }) {
   const { resumeTask } = useTask();
   const { token } = useAuth();
+  const [isProcessing, setIsProcessing] = useState(false);
   const handleResumeTask = async () => {
+    setIsProcessing(true);
     let resumed = await resumeTask(task._id, token);
+    setIsProcessing(false);
     if (!resumed) {
       window.alert("An error occured, failed to restore task");
     }
@@ -28,10 +33,11 @@ export function CanceledTaskItem({ setCurrentTask, handleOpen, task }) {
         minWidth: 0,
         boxSizing: "border-box",
         ":hover": {
-          backgroundColor: "#f4f5f7",
-          // border: "1px solid white",
-          boxShadow: "0px 4px 10px 0px rgba(0,0,0,0.2)",
-          borderRadius: "5px",
+          // backgroundColor: "#f4f5f7",
+          // // border: "1px solid white",
+          // boxShadow: "0px 4px 10px 0px rgba(0,0,0,0.2)",
+          // borderRadius: "5px",
+          color: "blue",
         },
       }}
       key={task._id}
@@ -74,7 +80,10 @@ export function CanceledTaskItem({ setCurrentTask, handleOpen, task }) {
         </Box>
       </Box>
       <Box sx={{ flexShrink: 0 }}>
-        <CachedIcon onClick={handleResumeTask} />
+        <ButtonOrLoader
+          button={<CachedIcon onClick={handleResumeTask} />}
+          loading={isProcessing}
+        />
       </Box>
     </Box>
   );
