@@ -43,11 +43,7 @@ export default function Auth() {
       <Container maxWidth="sm">
         <Paper
           elevation={3}
-          sx={{
-            width: "100%",
-            p: { xs: 3, sm: 4 },
-            borderRadius: 3,
-          }}
+          sx={{ maxWidth: { sm: "90%" }, p: { xs: 3, sm: 4 }, borderRadius: 3 }}
         >
           {currentView === "login" && (
             <LoginForm
