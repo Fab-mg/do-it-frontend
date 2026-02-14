@@ -37,7 +37,7 @@ export default function TaskDetails({ task }) {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: { xs: "92%", sm: 540 },
+        width: { xs: "85%", sm: 540 },
         bgcolor: "background.paper",
         border: "1px solid",
         borderColor: "divider",

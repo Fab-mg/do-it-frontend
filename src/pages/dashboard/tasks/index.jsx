@@ -81,6 +81,7 @@ export default function TaskTab() {
           label={"Canceled tasks"}
           icon={<EventBusyIcon sx={{ marginRight: "4px" }} />}
         />
+        <Box sx={{ height: 4 }} />
       </Stack>
     </Box>
   );

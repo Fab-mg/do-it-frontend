@@ -56,12 +56,14 @@ export default function TaskList({ taskList, label, icon, isOpen }) {
           {taskList.slice(0, 10).map((task) => {
             if (task.status === "cancelled") {
               return (
+                // <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <CanceledTaskItem
                   key={task._id}
                   task={task}
                   handleOpen={handleOpen}
                   setCurrentTask={setCurrentTask}
                 />
+                // </Box>
               );
             }
             return (

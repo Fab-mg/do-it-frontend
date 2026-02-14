@@ -46,12 +46,12 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
         gap: 1.5,
         px: { xs: 1, sm: 2 },
         py: 1,
-        width: "100%",
+        width: { xl: "90%", md: "90%", xs: "100%" },
+
         minWidth: 0,
         boxSizing: "border-box",
         ":hover": {
           backgroundColor: "#f4f5f7",
-          // border: "1px solid white",
           boxShadow: "0px 4px 10px 0px rgba(0,0,0,0.2)",
           borderRadius: "5px",
         },
@@ -82,7 +82,14 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
         <Box sx={{ minWidth: 0 }}>
           <Typography
             variant="subtitle1"
-            sx={{ fontWeight: "550", overflowWrap: "anywhere" }}
+            sx={{
+              fontWeight: "550",
+              overflowWrap: "anywhere",
+              fontSize: { xs: "16px" },
+              overflow: { xs: "hidden" },
+              textOverflow: { xs: "ellipsis" },
+              whiteSpace: { xs: "nowrap" },
+            }}
             onClick={() => {
               setCurrentTask(task);
               handleOpen();
@@ -92,7 +99,11 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
           </Typography>
           <Typography
             variant="caption"
-            sx={{ display: "block", overflowWrap: "anywhere" }}
+            sx={{
+              display: "block",
+              overflowWrap: "anywhere",
+              display: { xs: "none" },
+            }}
             onClick={() => {
               setCurrentTask(task);
               handleOpen();

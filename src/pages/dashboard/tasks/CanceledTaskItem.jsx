@@ -24,6 +24,7 @@ export function CanceledTaskItem({ setCurrentTask, handleOpen, task }) {
         px: { xs: 1, sm: 2 },
         py: 1,
         width: "100%",
+        width: { xs: "90%" },
         minWidth: 0,
         boxSizing: "border-box",
         ":hover": {
@@ -58,7 +59,11 @@ export function CanceledTaskItem({ setCurrentTask, handleOpen, task }) {
           </Typography>
           <Typography
             variant="caption"
-            sx={{ display: "block", overflowWrap: "anywhere" }}
+            sx={{
+              display: "block",
+              overflowWrap: "anywhere",
+              display: { xs: "none" },
+            }}
             onClick={() => {
               setCurrentTask(task);
               handleOpen();
