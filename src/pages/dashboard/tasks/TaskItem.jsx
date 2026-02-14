@@ -43,8 +43,12 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        paddingLeft: 5,
-        paddingRight: 10,
+        gap: 1.5,
+        px: { xs: 1, sm: 2 },
+        py: 1,
+        width: "100%",
+        minWidth: 0,
+        boxSizing: "border-box",
         ":hover": {
           backgroundColor: "#f4f5f7",
           // border: "1px solid white",
@@ -60,6 +64,8 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
           flexDirection: "row",
           alignItems: "center",
           cursor: "pointer",
+          minWidth: 0,
+          flex: 1,
         }}
       >
         {task.status === "finished" ? (
@@ -73,34 +79,36 @@ export function TaskItem({ setCurrentTask, handleOpen, task }) {
             checked={checkedTask}
           />
         )}
-        <Typography
-          variant="subtitle1"
-          sx={{ fontWeight: "550" }}
-          onClick={() => {
-            setCurrentTask(task);
-            handleOpen();
-          }}
-        >
-          {task.title}
-        </Typography>
-        <Typography
-          variant="caption"
-          sx={{ marginLeft: 1 }}
-          onClick={() => {
-            setCurrentTask(task);
-            handleOpen();
-          }}
-        >
-          {" - " + formatDescription(task.description)}
-        </Typography>
+        <Box sx={{ minWidth: 0 }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ fontWeight: "550", overflowWrap: "anywhere" }}
+            onClick={() => {
+              setCurrentTask(task);
+              handleOpen();
+            }}
+          >
+            {task.title}
+          </Typography>
+          <Typography
+            variant="caption"
+            sx={{ display: "block", overflowWrap: "anywhere" }}
+            onClick={() => {
+              setCurrentTask(task);
+              handleOpen();
+            }}
+          >
+            {formatDescription(task.description)}
+          </Typography>
+        </Box>
       </Box>
       {task.status === "finished" ? (
-        <Box>
+        <Box sx={{ flexShrink: 0 }}>
           {" "}
           <ArchiveIcon onClick={handleArchiveTask} />
         </Box>
       ) : (
-        <Box>
+        <Box sx={{ flexShrink: 0 }}>
           {checkedTask ? (
             <Box>
               <Button onClick={handleFinishTask}>Finish Task</Button>

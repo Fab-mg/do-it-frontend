@@ -18,7 +18,7 @@ export default function TaskList({ taskList, label, icon, isOpen }) {
   };
 
   return (
-    <Box>
+    <Box sx={{ width: "100%", minWidth: 0 }}>
       <Box>
         <Stack
           sx={{
@@ -46,7 +46,12 @@ export default function TaskList({ taskList, label, icon, isOpen }) {
           </Typography>
         </Stack>
         <Box
-          sx={{ marginLeft: 6, display: showTodaysTasks ? "block" : "none" }}
+          sx={{
+            ml: { xs: 0, sm: 3 },
+            width: "100%",
+            minWidth: 0,
+            display: showTodaysTasks ? "block" : "none",
+          }}
         >
           {taskList.slice(0, 10).map((task) => {
             if (task.status === "cancelled") {

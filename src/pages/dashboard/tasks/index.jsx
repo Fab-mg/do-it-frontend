@@ -29,17 +29,17 @@ export default function TaskTab() {
     getCanceledTasks(token);
   }, []);
   return (
-    <Box sx={{ width: "100%" }}>
-      <Stack spacing={2} sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", minWidth: 0, overflowX: "hidden" }}>
+      <Stack spacing={2} sx={{ width: "100%", minWidth: 0 }}>
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "flex-start", sm: "center" },
             justifyContent: "space-between",
+            gap: 1.5,
             width: "100%",
             maxWidth: "100%",
-            // bgcolor: "tomato",
           }}
         >
           <Stack spacing={1}>

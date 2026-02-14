@@ -14,7 +14,8 @@ export default function Sidebar({ activeTab, onChangeTab, onLogout }) {
     <Box
       sx={{
         width: { xs: "100%", md: 260 },
-        minWidth: { md: 260 },
+        minWidth: { xs: 0, md: 260 },
+        boxSizing: "border-box",
         bgcolor: "background.paper",
         borderRadius: 3,
         border: "1px solid",
