@@ -13,3 +13,5 @@ Creer votre propre fichier ".env" basé sur le contenu de "example.env" et rempl
 ## Lancement
 
 Lancez d'abord le projet backend, puis lancez le frontend avec: npm run dev
+
+## Projet deployé sur netlify: https://do-it-fab.netlify.app/
