@@ -95,8 +95,8 @@ export default function Welcome() {
               Simple. Fast. Effective.
             </Typography>
             <Typography color="text.secondary">
-              TaskFlow helps you plan your day, track your goals, and manage
-              your tasks without feeling overwhelmed.
+              Do-It helps you plan your day, track your goals, and manage your
+              tasks without feeling overwhelmed.
             </Typography>
           </Stack>
 
